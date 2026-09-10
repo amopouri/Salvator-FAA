@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salvatores Aviation Unit — هندبوک رسمی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0d12;
+    --bg-panel: #121722;
+    --bg-elevated: #1a212d;
+    --border: #263041;
+    --border-soft: #1d2531;
+    --amber: #e8a13d;
+    --amber-dim: #a67529;
+    --cyan: #5fc2c2;
+    --red: #e35d5d;
+    --green: #6fbf8b;
+    --text: #eef1f5;
+    --text-muted: #8b97a8;
+    --text-faint: #566175;
+    --radius: 3px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Vazirmatn', sans-serif;
+    line-height: 1.85;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--amber); color:#111; }
+  .mono{ font-family: 'JetBrains Mono', monospace; direction: ltr; unicode-bidi: isolate; }
+
+  /* ===== HERO ===== */
+  .hero{
+    position: relative;
+    min-height: 78vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    padding: 80px 24px 60px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% 20%, rgba(232,161,61,0.10), transparent 60%),
+      linear-gradient(180deg, #0a0d12 0%, #0d1119 100%);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .hero-radar{
+    position:absolute; inset:0;
+    pointer-events:none;
+    opacity: 0.35;
+  }
+  .hero-radar svg{ width:100%; height:100%; }
+  .hero-eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    color: var(--amber);
+    direction: ltr;
+    margin-bottom: 22px;
+    opacity: 0.9;
+  }
+  .hero h1{
+    font-size: clamp(2.1rem, 5.2vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.25;
+    color: #fff;
+    max-width: 16ch;
+    margin-bottom: 18px;
+  }
+  .hero p.tagline{
+    font-size: 1.08rem;
+    color: var(--text-muted);
+    max-width: 42ch;
+    margin-bottom: 34px;
+  }
+  .hero-badges{
+    display:flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content:center;
+  }
+  .badge{
+    display:flex; align-items:center; gap:9px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .badge-dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .dot-green{ background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .dot-cyan{ background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .dot-amber{ background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+
+  /* ===== NAV ===== */
+  .navbar{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(10,13,18,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .navbar-inner{
+    max-width: 1180px; margin: 0 auto;
+    display:flex; align-items:center; gap: 4px;
+    padding: 0 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .navbar-inner::-webkit-scrollbar{ display:none; }
+  .navbar-inner a{
+    flex-shrink:0;
+    color: var(--text-muted);
+    text-decoration:none;
+    font-size: 0.86rem;
+    padding: 16px 12px;
+    border-bottom: 2px solid transparent;
+    white-space:nowrap;
+    transition: color .15s, border-color .15s;
+  }
+  .navbar-inner a:hover{ color: var(--text); }
+  .navbar-inner a.active{ color: var(--amber); border-bottom-color: var(--amber); }
+  .navbar-brand{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--amber-dim);
+    padding: 16px 12px 16px 20px;
+    border-left: 1px solid var(--border-soft);
+    margin-left: 6px;
+    flex-shrink:0;
+    direction: ltr;
+  }
+
+  /* ===== LAYOUT ===== */
+  main{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  section{
+    padding: 76px 0;
+    border-bottom: 1px solid var(--border-soft);
+    scroll-margin-top: 60px;
+  }
+  section:last-of-type{ border-bottom: none; }
+  .section-head{
+    display:flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .section-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--amber);
+    border: 1px solid var(--amber-dim);
+    border-radius: var(--radius);
+    padding: 3px 9px;
+    flex-shrink:0;
+  }
+  .section-head h2{
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .lede{
+    color: var(--text-muted);
+    font-size: 1.02rem;
+    max-width: 60ch;
+    margin-bottom: 30px;
+  }
+  h3.sub{
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--amber);
+    margin: 34px 0 14px;
+  }
+  h3.sub:first-child{ margin-top: 0; }
+  p{ color: var(--text); margin-bottom: 14px; max-width: 68ch; }
+  .callout{
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-right: 3px solid var(--amber);
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    margin: 20px 0;
+    color: var(--text);
+    font-size: 0.97rem;
+  }
+  .callout.danger{ border-right-color: var(--red); }
+  .callout.info{ border-right-color: var(--cyan); }
+
+  /* pill lists */
+  ul.pillbox{
+    list-style:none;
+    display:flex; flex-wrap:wrap;
+    gap:9px;
+    margin: 18px 0 8px;
+  }
+  ul.pillbox li{
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 7px 14px;
+    border-radius: var(--radius);
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+
+  /* comparison grid (do/dont) */
+  .grid2{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 22px 0;
+  }
+  @media (max-width: 640px){ .grid2{ grid-template-columns: 1fr; } }
+  .panel{
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .panel h4{
+    font-size: 0.82rem;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.02em;
+    margin-bottom: 12px;
+    direction: ltr;
+    text-align: right;
+  }
+  .panel.ok h4{ color: var(--green); }
+  .panel.no h4{ color: var(--red); }
+  .panel ul{ list-style:none; }
+  .panel li{
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .panel li:last-child{ border-bottom:none; }
+
+  /* definitions */
+  .term{
+    border-top: 1px solid var(--border-soft);
+    padding: 20px 0;
+    display:grid;
+    grid-template-columns: 140px 1fr;
+    gap: 18px;
+  }
+  .term:first-of-type{ border-top:none; }
+  @media (max-width: 560px){ .term{ grid-template-columns: 1fr; gap:6px; } }
+  .term .term-key{
+    font-weight: 700;
+    color: #fff;
+    font-size: 0.98rem;
+  }
+  .term .term-key span{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--amber);
+    font-weight: 400;
+    margin-top: 3px;
+    direction: ltr;
+  }
+  .term p{ margin:0; font-size: 0.94rem; color: var(--text-muted); }
+
+  /* radio transcript */
+  .transcript{
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .transcript .line{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    color: var(--cyan);
+    direction: ltr;
+    text-align: left;
+    line-height: 1.9;
+  }
+  .transcript .line + .line{ color: var(--text-muted); }
+
+  /* code table */
+  .code-table{
+    width:100%;
+    border-collapse: collapse;
+    margin: 10px 0 30px;
+    font-size: 0.92rem;
+  }
+  .code-table th{
+    text-align: right;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .code-table td{
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: middle;
+  }
+  .code-table tr:hover td{ background: var(--bg-panel); }
+  .code-table .code{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--amber);
+    direction: ltr;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 0.9rem;
+  }
+  .code-table tr.critical .code{ color: var(--red); font-weight: 700; }
+  .code-table tr.positive .code{ color: var(--green); }
+
+  /* numbered steps */
+  ol.steps{
+    list-style:none;
+    counter-reset: step;
+    margin: 20px 0;
+  }
+  ol.steps li{
+    counter-increment: step;
+    position: relative;
+    padding-right: 44px;
+    padding-bottom: 18px;
+    font-size: 0.96rem;
+    color: var(--text);
+    border-right: 1px solid var(--border);
+    margin-right: 15px;
+  }
+  ol.steps li:last-child{ border-color: transparent; padding-bottom: 0; }
+  ol.steps li::before{
+    content: counter(step);
+    position: absolute;
+    right: -16px; top: -2px;
+    width: 30px; height: 30px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--amber-dim);
+    color: var(--amber);
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  /* priority list */
+  .priority{ margin: 18px 0; }
+  .priority-row{
+    display:flex; align-items:center; gap:14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .priority-row:last-child{ border-bottom:none; }
+  .priority-rank{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--amber);
+    width: 24px; text-align:center; flex-shrink:0;
+  }
+  .priority-row span{ color: var(--text); font-size: 0.95rem; }
+
+  /* violations */
+  .violation-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 24px;
+    margin: 18px 0;
+  }
+  @media (max-width:560px){ .violation-grid{ grid-template-columns: 1fr; } }
+  .violation-grid div{
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border-soft);
+  }
+
+  /* severity scale */
+  .severity{
+    display:flex; flex-direction:column; gap:0;
+    margin: 20px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow:hidden;
+  }
+  .severity-row{
+    display:flex; align-items:center; gap:16px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 0.92rem;
+  }
+  .severity-row:last-child{ border-bottom:none; }
+  .severity-bar{ width:5px; height:22px; border-radius:2px; flex-shrink:0; }
+
+  /* closing charter */
+  .charter{
+    text-align:center;
+    padding: 90px 24px 60px;
+    background: linear-gradient(180deg, #0a0d12, #0d1119);
+  }
+  .charter blockquote{
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: 700;
+    color: #fff;
+    max-width: 26ch;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+  .charter blockquote span{ color: var(--amber); }
+  .charter-list{
+    display:flex; flex-wrap:wrap; justify-content:center;
+    gap: 12px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .charter-list div{
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  footer{
+    text-align:center;
+    padding: 40px 24px 60px;
+    color: var(--text-faint);
+    font-size: 0.82rem;
+  }
+  footer .mono{ display:block; margin-top:6px; letter-spacing: 0.05em; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-radar">
+    <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+      <circle cx="400" cy="120" r="60" fill="none" stroke="#e8a13d" stroke-opacity="0.18"/>
+      <circle cx="400" cy="120" r="120" fill="none" stroke="#e8a13d" stroke-opacity="0.12"/>
+      <circle cx="400" cy="120" r="180" fill="none" stroke="#e8a13d" stroke-opacity="0.07"/>
+      <circle cx="400" cy="120" r="240" fill="none" stroke="#e8a13d" stroke-opacity="0.04"/>
+      <line x1="400" y1="-120" x2="400" y2="360" stroke="#e8a13d" stroke-opacity="0.05"/>
+      <line x1="160" y1="120" x2="640" y2="120" stroke="#e8a13d" stroke-opacity="0.05"/>
+    </svg>
+  </div>
+  <div class="hero-eyebrow">SALVATORES AVIATION UNIT · v1.0</div>
+  <h1>هندبوک رسمی واحد هوانوردی شهر سالواتورس</h1>
+  <p class="tagline">سند داخلی واحد هوانوردی — نظم، هماهنگی و استاندارد واحد در تمامی عملیات‌های هوایی شهر</p>
+  <div class="hero-badges">
+    <div class="badge"><span class="badge-dot dot-green"></span>ایمنی</div>
+    <div class="badge"><span class="badge-dot dot-cyan"></span>انضباط</div>
+    <div class="badge"><span class="badge-dot dot-amber"></span>هماهنگی</div>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="navbar-brand">EAGLE-CTRL</div>
+    <a href="#intro">معرفی</a>
+    <a href="#rp">قوانین RP</a>
+    <a href="#radio">ارتباطات رادیویی</a>
+    <a href="#codes">کدهای رادیویی</a>
+    <a href="#callsign">Call Sign</a>
+    <a href="#preflight">قبل از پرواز</a>
+    <a href="#inflight">حین پرواز</a>
+    <a href="#pickup">Pickup</a>
+    <a href="#emergency">اضطراری</a>
+    <a href="#discipline">انضباط</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="intro">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>معرفی واحد هوانوردی</h2>
+    </div>
+    <p class="lede">واحد هوانوردی شهر سالواتورس یکی از واحدهای تخصصی و عملیاتی شهر است که وظیفه پشتیبانی هوایی از نیروهای زمینی و انجام مأموریت‌های هوایی را بر عهده دارد.</p>
+
+    <h3 class="sub">مأموریت‌های اصلی</h3>
+    <ul class="pillbox">
+      <li>گشت و نظارت هوایی</li>
+      <li>شناسایی مناطق</li>
+      <li>پشتیبانی از نیروهای زمینی</li>
+      <li>انتقال نیرو</li>
+      <li>عملیات Pickup</li>
+      <li>جست‌وجو و شناسایی</li>
+      <li>پشتیبانی عملیات‌های ویژه</li>
+      <li>نظارت بر مناطق حساس</li>
+      <li>انتقال اضطراری نیروها</li>
+      <li>پشتیبانی در شرایط بحرانی</li>
+    </ul>
+
+    <h3 class="sub">اصول بنیادین واحد</h3>
+    <p>هر خلبان موظف است سه اصل اساسی را همیشه رعایت کند:</p>
+    <div class="term">
+      <div class="term-key">ایمنی</div>
+      <p>جان خود، سرنشینان و شهروندان همیشه در اولویت است.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">انضباط</div>
+      <p>تمامی دستورات، پروتکل‌ها و قوانین سازمانی باید رعایت شوند.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">هماهنگی</div>
+      <p>هیچ عملیات هوایی بدون ارتباط و هماهنگی صحیح با سایر واحدها کامل نیست.</p>
+    </div>
+
+    <div class="callout">هیچ مأموریتی مهم‌تر از جان افراد و قوانین شهر نیست.</div>
+  </section>
+
+  <section id="rp">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>قوانین عمومی RolePlay</h2>
+    </div>
+    <p class="lede">تمام اعضای واحد هوانوردی موظف به رعایت قوانین عمومی شهر هستند.</p>
+
+    <div class="term">
+      <div class="term-key">RolePlay<span>RP</span></div>
+      <p>رفتار کردن مانند یک انسان واقعی و انجام اقدامات مطابق منطق دنیای واقعی و قوانین شهر. مثال: اگر هلیکوپتر آسیب جدی دیده باشد، خلبان نمی‌تواند بدون توجه به شرایط همچنان با سرعت و مانورهای خطرناک پرواز کند.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">NonRP</div>
+      <p>هرگونه رفتار غیرمنطقی یا خلاف قوانین RolePlay که باعث خراب شدن روند بازی شود.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">In Character<span>IC</span></div>
+      <p>تمام صحبت‌ها، تصمیمات و رفتارهایی که شخصیت شما در داخل بازی انجام می‌دهد.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">Out Of Character<span>OOC</span></div>
+      <p>صحبت یا اقدامی خارج از نقش شخصیت. استفاده از OOC باید محدود به موارد ضروری باشد.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">MetaGaming</div>
+      <p>استفاده از اطلاعاتی که شخصیت شما در بازی به دست نیاورده — مثل Discord، استریم یا چت OOC — در تصمیمات IC ممنوع است.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">PowerGaming</div>
+      <p>انجام اقدامات غیرممکن یا غیرواقعی که در دنیای واقعی امکان انجام آن وجود ندارد.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">FearRP</div>
+      <p>هر عضو موظف است برای جان شخصیت خود ارزش قائل باشد و در شرایط خطر، منطقی رفتار کند.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">VDM</div>
+      <p>زیر گرفتن یا آسیب‌زدن عمدی به افراد با وسیله نقلیه ممنوع است.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">DM</div>
+      <p>آسیب‌زدن یا کشتن افراد بدون دلیل منطقی و RP معتبر ممنوع است.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">KOS</div>
+      <p>کشتن یک شخص تنها در صورت وجود دلیل منطقی و مدرک معتبر، مانند فیلم یا عکس، مجاز است.</p>
+    </div>
+  </section>
+
+  <section id="radio">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>قوانین ارتباطات رادیویی</h2>
+    </div>
+    <p class="lede">رادیو، اصلی‌ترین ابزار ارتباطی واحد هوانوردی است.</p>
+
+    <div class="callout">قانون طلایی رادیو: کوتاه صحبت کن، واضح صحبت کن، دقیق گزارش بده.</div>
+
+    <h3 class="sub">قوانین رادیویی</h3>
+    <ul class="pillbox">
+      <li>پرهیز از مکالمات غیرضروری</li>
+      <li>اشغال نکردن کانال در عملیات حساس</li>
+      <li>تأیید پیام‌های مهم</li>
+      <li>استفاده از 10-5 در صورت عدم دریافت</li>
+      <li>اعلام موقعیت در شرایط ضروری</li>
+      <li>عدم تغییر فرکانس بدون هماهنگی</li>
+      <li>ممنوعیت شوخی در کانال عملیاتی</li>
+    </ul>
+
+    <h3 class="sub">سکوت رادیویی</h3>
+    <div class="term">
+      <div class="term-key">سکوت اجباری در محل<span>10-2</span></div>
+      <p>تمام نیروهای حاضر در محل باید از مکالمات غیرضروری خودداری کنند.</p>
+    </div>
+    <div class="term">
+      <div class="term-key">سکوت کامل رادیویی<span>10-3</span></div>
+      <p>تمامی ارتباطات غیرضروری متوقف می‌شود. تنها پیام‌های ضروری و حیاتی مجاز هستند.</p>
+    </div>
+  </section>
+
+  <section id="codes">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>جدول کدهای رادیویی</h2>
+    </div>
+    <p class="lede">مرجع کامل کدهای عددی برای ارتباط سریع و استاندارد روی کانال.</p>
+
+    <table class="code-table">
+      <thead>
+        <tr><th style="width:110px">کد</th><th>مفهوم</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="code">10-1</td><td>اجماع تمام نیروها در محل مشخص</td></tr>
+        <tr><td class="code">10-2</td><td>سکوت اجباری در محل</td></tr>
+        <tr class="critical"><td class="code">10-3</td><td>سکوت کامل رادیویی</td></tr>
+        <tr class="positive"><td class="code">10-4</td><td>دریافت شد</td></tr>
+        <tr><td class="code">10-5</td><td>تکرار آخرین پیام</td></tr>
+        <tr><td class="code">10-6</td><td>نادیده بگیرید</td></tr>
+        <tr><td class="code">10-7</td><td>AFK</td></tr>
+        <tr class="positive"><td class="code">10-8</td><td>آماده انجام مأموریت</td></tr>
+        <tr><td class="code">10-9</td><td>مشغول هستم</td></tr>
+        <tr class="positive"><td class="code">10-10</td><td>مأموریت با موفقیت پایان یافت</td></tr>
+        <tr><td class="code">10-11</td><td>مأموریت ناموفق بود</td></tr>
+        <tr><td class="code">10-12</td><td>درخواست Pickup</td></tr>
+        <tr><td class="code">10-19</td><td>بازگشت به استیشن</td></tr>
+        <tr><td class="code">10-20</td><td>اعلام موقعیت دقیق</td></tr>
+        <tr><td class="code">10-21</td><td>اعلام وضعیت</td></tr>
+        <tr><td class="code">10-37</td><td>معرفی Call Sign</td></tr>
+        <tr><td class="code">10-42</td><td>درخواست Off Duty</td></tr>
+        <tr><td class="code">10-45</td><td>درخواست تغییر فرکانس</td></tr>
+        <tr class="critical"><td class="code">10-60</td><td>فرود اضطراری</td></tr>
+        <tr><td class="code">10-61</td><td>بررسی منطقه با X-Ray</td></tr>
+        <tr><td class="code">10-63</td><td>اجازه پرواز</td></tr>
+        <tr><td class="code">10-64</td><td>اجازه فرود</td></tr>
+        <tr class="critical"><td class="code">10-70</td><td>درخواست نیروی پشتیبانی</td></tr>
+        <tr><td class="code">10-97</td><td>در حال اعزام</td></tr>
+        <tr class="positive"><td class="code">10-99</td><td>مأموریت پایان یافت</td></tr>
+        <tr class="positive"><td class="code">Code-1</td><td>New Player</td></tr>
+        <tr class="critical"><td class="code">Code 0</td><td>خروج از بازی / قطع اینترنت</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="callsign">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2>Call Sign و پروتکل ارتباطی</h2>
+    </div>
+    <p class="lede">هر خلبان باید دارای Call Sign اختصاصی باشد که هنگام ورود به شیفت و در صورت درخواست مرکز اعلام می‌شود.</p>
+
+    <h3 class="sub">معرفی Call Sign — 10-37</h3>
+    <div class="transcript">
+      <div class="line">Dispatch, 10-37.</div>
+      <div class="line">Eagle-01.</div>
+    </div>
+
+    <h3 class="sub">اعلام موقعیت — 10-20</h3>
+    <div class="transcript">
+      <div class="line">Eagle-01, 10-20.</div>
+      <div class="line">Downtown Los Santos, over.</div>
+    </div>
+
+    <h3 class="sub">اعلام وضعیت — 10-21</h3>
+    <div class="transcript">
+      <div class="line">Eagle-01, 10-21, وضعیت عادی و در حال گشت هوایی.</div>
+    </div>
+
+    <h3 class="sub">اعلام اعزام — 10-97</h3>
+    <div class="transcript">
+      <div class="line">Eagle-01, 10-97, در حال اعزام به محل.</div>
+    </div>
+
+    <h3 class="sub">پایان موفق مأموریت — 10-10</h3>
+    <div class="transcript">
+      <div class="line">Eagle-01, 10-10, مأموریت با موفقیت پایان یافت.</div>
+    </div>
+  </section>
+
+  <section id="preflight">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2>چک‌لیست قبل از پرواز</h2>
+    </div>
+    <p class="lede">قبل از هر پرواز، خلبان موظف است شرایط هواگرد و محیط اطراف را بررسی کند.</p>
+
+    <div class="grid2">
+      <div class="panel ok">
+        <h4>AIRCRAFT CHECK</h4>
+        <ul>
+          <li>سلامت ظاهری</li>
+          <li>وضعیت موتور</li>
+          <li>میزان سوخت</li>
+          <li>وضعیت کلی هواگرد</li>
+          <li>وجود آسیب‌های احتمالی</li>
+        </ul>
+      </div>
+      <div class="panel ok">
+        <h4>ENVIRONMENT CHECK</h4>
+        <ul>
+          <li>افراد اطراف</li>
+          <li>ساختمان‌ها و موانع</li>
+          <li>خودروها</li>
+          <li>سایر هواگردها</li>
+          <li>شرایط محل برخاست</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">بررسی ارتباطات</h3>
+    <ul class="pillbox">
+      <li>رادیو فعال</li>
+      <li>فرکانس صحیح</li>
+      <li>Call Sign مشخص</li>
+      <li>ارتباط با مرکز</li>
+    </ul>
+
+    <h3 class="sub">بررسی مأموریت</h3>
+    <p>خلبان باید بداند: مقصد کجاست، هدف مأموریت چیست، چه افرادی همراه هستند، آیا Pickup لازم است و آیا نیروی پشتیبانی نیاز است.</p>
+
+    <div class="callout info">اجازه پرواز — 10-63: در شرایطی که مرکز کنترل فعال است، خلبان باید پیش از پرواز هماهنگی لازم را انجام دهد.</div>
+  </section>
+
+  <section id="inflight">
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <h2>قوانین حین پرواز</h2>
+    </div>
+    <div class="callout danger">هواگرد سازمانی وسیله شخصی نیست. استفاده تفریحی، نمایشی یا غیرضروری از هواگرد سازمانی ممنوع است.</div>
+
+    <div class="grid2">
+      <div class="panel no">
+        <h4>PROHIBITED</h4>
+        <ul>
+          <li>مانورهای نمایشی بی‌دلیل</li>
+          <li>پرواز خطرناک در مناطق شهری</li>
+          <li>نزدیک‌شدن غیرضروری به ساختمان‌ها</li>
+          <li>ایجاد مزاحمت برای نیروهای زمینی</li>
+          <li>پرواز بدون هدف مشخص</li>
+          <li>استفاده شخصی از هواگرد</li>
+        </ul>
+      </div>
+      <div class="panel ok">
+        <h4>REQUIRED</h4>
+        <ul>
+          <li>ارتفاع متناسب با محیط شهری</li>
+          <li>در نظر گرفتن جمعیت و ساختمان‌ها</li>
+          <li>هماهنگی با سایر هواگردها</li>
+          <li>انتخاب مسیر متناسب با نوع مأموریت</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">بررسی منطقه با X-Ray — 10-61</h3>
+    <p>خلبان باید منطقه مورد نظر را از موقعیت مناسب بررسی کرده و اطلاعات مفید را به نیروهای مربوطه منتقل کند.</p>
+    <div class="callout">اطلاعات را گزارش کنید؛ در تصمیم‌گیری نیروهای زمینی دخالت غیرضروری نکنید.</div>
+  </section>
+
+  <section id="pickup">
+    <div class="section-head">
+      <span class="section-num">08</span>
+      <h2>Pickup و پشتیبانی عملیاتی</h2>
+    </div>
+    <p class="lede">پس از دریافت درخواست Pickup — کد 10-12 — روند زیر دنبال می‌شود:</p>
+
+    <ol class="steps">
+      <li>موقعیت را دریافت کنید.</li>
+      <li>مسیر مناسب را مشخص کنید.</li>
+      <li>شرایط منطقه را بررسی کنید.</li>
+      <li>امکان فرود را ارزیابی کنید.</li>
+      <li>در صورت ایمنی، فرود انجام دهید.</li>
+      <li>فرد یا افراد موردنظر را منتقل کنید.</li>
+      <li>منطقه را ترک کنید.</li>
+    </ol>
+
+    <h3 class="sub">فرود ایمن — بررسی پیش از فرود</h3>
+    <ul class="pillbox">
+      <li>ساختمان‌ها</li>
+      <li>درختان</li>
+      <li>تیرهای برق</li>
+      <li>خودروها</li>
+      <li>افراد حاضر</li>
+      <li>درگیری احتمالی</li>
+      <li>سایر هواگردها</li>
+      <li>مسیر خروج اضطراری</li>
+    </ul>
+
+    <div class="callout info">اجازه فرود — 10-64: در صورت فعال بودن مرکز کنترل، هماهنگی لازم باید انجام شود.</div>
+    <div class="callout danger">درخواست پشتیبانی — 10-70: در شرایطی که خلبان یا تیم هوایی نیاز به کمک دارد، موقعیت و وضعیت باید به‌صورت واضح اعلام شود.</div>
+  </section>
+
+  <section id="emergency">
+    <div class="section-head">
+      <span class="section-num">09</span>
+      <h2>شرایط اضطراری</h2>
+    </div>
+    <p class="lede">شرایط اضطراری نیازمند آرامش، سرعت عمل و تصمیم منطقی است.</p>
+
+    <h3 class="sub">فرود اضطراری — 10-60</h3>
+    <ol class="steps">
+      <li>اعلام وضعیت</li>
+      <li>اعلام موقعیت</li>
+      <li>انتخاب نزدیک‌ترین محل امن</li>
+      <li>دوری از مناطق پرجمعیت</li>
+      <li>انجام فرود</li>
+      <li>گزارش وضعیت پس از فرود</li>
+    </ol>
+
+    <h3 class="sub">اولویت‌های فرود اضطراری</h3>
+    <div class="priority">
+      <div class="priority-row"><span class="priority-rank">۱</span><span>حفظ جان سرنشینان</span></div>
+      <div class="priority-row"><span class="priority-rank">۲</span><span>جلوگیری از آسیب به شهروندان</span></div>
+      <div class="priority-row"><span class="priority-rank">۳</span><span>کنترل هواگرد</span></div>
+      <div class="priority-row"><span class="priority-rank">۴</span><span>حفظ تجهیزات سازمانی</span></div>
+    </div>
+
+    <h3 class="sub">Code 0 — خروج از بازی / قطع اینترنت</h3>
+    <p>در صورت قطع اینترنت یا خروج ناگهانی از بازی، بازیکن باید پس از بازگشت، در اولین فرصت وضعیت خود را به واحد اعلام کند.</p>
+
+    <h3 class="sub">10-7 — AFK</h3>
+    <div class="transcript">
+      <div class="line">Eagle-01, 10-7.</div>
+      <div class="line" style="color:var(--green)">Eagle-01, 10-8.</div>
+    </div>
+  </section>
+
+  <section id="discipline">
+    <div class="section-head">
+      <span class="section-num">10</span>
+      <h2>انضباط و قوانین نهایی</h2>
+    </div>
+    <p class="lede">هر خلبان نماینده مستقیم واحد هوانوردی در آسمان شهر است. رفتار، نحوه صحبت، نحوه پرواز و تصمیمات خلبان می‌تواند اعتبار کل واحد را تحت تأثیر قرار دهد.</p>
+
+    <h3 class="sub">سطوح تخلف انضباطی</h3>
+    <div class="severity">
+      <div class="severity-row"><span class="severity-bar" style="background:#c9a24a"></span>تذکر شفاهی</div>
+      <div class="severity-row"><span class="severity-bar" style="background:#d98c3d"></span>اخطار رسمی</div>
+      <div class="severity-row"><span class="severity-bar" style="background:var(--red)"></span>تعلیق موقت</div>
+      <div class="severity-row"><span class="severity-bar" style="background:#c94f4f"></span>تنزل رتبه</div>
+      <div class="severity-row"><span class="severity-bar" style="background:#8c2f2f"></span>اخراج از واحد</div>
+    </div>
+
+    <h3 class="sub">تخلفات مهم</h3>
+    <div class="violation-grid">
+      <div>سوءاستفاده از هواگرد سازمانی</div>
+      <div>پرواز غیرمجاز</div>
+      <div>ایجاد خطر عمدی</div>
+      <div>نادیده گرفتن دستورات مافوق</div>
+      <div>MetaGaming</div>
+      <div>PowerGaming</div>
+      <div>استفاده غیرمنطقی از هواگرد</div>
+      <div>ایجاد اختلال در عملیات سایر نیروها</div>
+      <div>استفاده نادرست از رادیو</div>
+      <div>ترک مأموریت بدون دلیل منطقی</div>
+      <div>رفتار غیرحرفه‌ای</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="charter">
+  <blockquote>ما پرواز نمی‌کنیم تا <span>دیده شویم</span>؛ پرواز می‌کنیم تا ببینیم، پشتیبانی کنیم و مأموریت را به پایان برسانیم.</blockquote>
+  <div class="charter-list">
+    <div>منضبط باشد</div>
+    <div>رادیو را کنترل کند</div>
+    <div>قوانین RP را رعایت کند</div>
+    <div>جان خود و دیگران را جدی بگیرد</div>
+    <div>با سایر نیروها همکاری کند</div>
+    <div>مأموریت را حرفه‌ای انجام دهد</div>
+  </div>
+</div>
+
+<footer>
+  Salvatores Aviation Unit — Official Internal Handbook
+  <span class="mono">DISCIPLINE · PRECISION · CONTROL — v1.0</span>
+</footer>
+
+<script>
+  const links = document.querySelectorAll('.navbar-inner a');
+  const sections = document.querySelectorAll('main section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.navbar-inner a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
