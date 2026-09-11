@@ -2,30 +2,37 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#06080d">
 <title>Salvatores Aviation Unit — هندبوک رسمی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #0a0d12;
-    --bg-panel: #121722;
-    --bg-elevated: #1a212d;
-    --border: #263041;
-    --border-soft: #1d2531;
+    --bg: #06080d;
+    --bg-panel: #0e1420;
+    --bg-elevated: #151d2c;
+    --border: #1f2a3d;
+    --border-soft: #16202e;
     --amber: #e8a13d;
     --amber-dim: #a67529;
+    --amber-glow: rgba(232,161,61,.32);
     --cyan: #5fc2c2;
+    --cyan-glow: rgba(95,194,194,.28);
     --red: #e35d5d;
+    --red-glow: rgba(227,93,93,.28);
     --green: #6fbf8b;
+    --green-glow: rgba(111,191,139,.28);
     --text: #eef1f5;
     --text-muted: #8b97a8;
     --text-faint: #566175;
-    --radius: 3px;
+    --radius: 4px;
+    --topbar-h: 60px;
   }
+
   *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%;}
   body{
     background: var(--bg);
     color: var(--text);
@@ -33,456 +40,1426 @@
     line-height: 1.85;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    padding-top: var(--topbar-h);
+    position: relative;
+  }
+  body::before{
+    content:"";
+    position: fixed; inset: 0; pointer-events:none; z-index:0;
+    background-image:
+      linear-gradient(rgba(95,194,194,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(95,194,194,.025) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 30%, transparent 85%);
   }
   ::selection{ background: var(--amber); color:#111; }
-  .mono{ font-family: 'JetBrains Mono', monospace; direction: ltr; unicode-bidi: isolate; }
+  ::-webkit-scrollbar{ width: 10px; height: 10px;}
+  ::-webkit-scrollbar-track{ background: var(--bg);}
+  ::-webkit-scrollbar-thumb{
+    background: linear-gradient(180deg, #26324a, #141b28);
+    border:2px solid var(--bg); border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover{ background: linear-gradient(180deg, var(--amber-dim), #6b4a17);}
+  .mono{ font-family:'JetBrains Mono', monospace; direction: ltr; unicode-bidi: isolate; }
+  img{ max-width: 100%; height: auto; display: block; }
 
-  /* ===== HERO ===== */
-  .hero{
-    position: relative;
-    min-height: 78vh;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align:center;
-    padding: 80px 24px 60px;
-    overflow: hidden;
-    background:
-      radial-gradient(ellipse 900px 500px at 50% 20%, rgba(232,161,61,0.10), transparent 60%),
-      linear-gradient(180deg, #0a0d12 0%, #0d1119 100%);
+  /* =========== TOPBAR =========== */
+  .topbar{
+    position: fixed; top:0; left:0; right:0; z-index: 100;
+    height: var(--topbar-h);
+    background: rgba(6,8,13,.85);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
     border-bottom: 1px solid var(--border-soft);
   }
-  .hero-radar{
-    position:absolute; inset:0;
-    pointer-events:none;
-    opacity: 0.35;
+  .topbar::after{
+    content:"";
+    position: absolute; bottom:-1px; left:0; right:0; height:1px;
+    background: linear-gradient(90deg, transparent, var(--amber-dim), transparent);
+    opacity:.35;
   }
-  .hero-radar svg{ width:100%; height:100%; }
-  .hero-eyebrow{
-    font-family:'JetBrains Mono', monospace;
-    font-size: 12.5px;
-    letter-spacing: 0.14em;
-    color: var(--amber);
-    direction: ltr;
-    margin-bottom: 22px;
-    opacity: 0.9;
-  }
-  .hero h1{
-    font-size: clamp(2.1rem, 5.2vw, 3.6rem);
-    font-weight: 800;
-    line-height: 1.25;
-    color: #fff;
-    max-width: 16ch;
-    margin-bottom: 18px;
-  }
-  .hero p.tagline{
-    font-size: 1.08rem;
-    color: var(--text-muted);
-    max-width: 42ch;
-    margin-bottom: 34px;
-  }
-  .hero-badges{
-    display:flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    justify-content:center;
-  }
-  .badge{
-    display:flex; align-items:center; gap:9px;
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    padding: 10px 18px;
-    border-radius: var(--radius);
-    font-size: 0.92rem;
-    color: var(--text);
-  }
-  .badge-dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-  .dot-green{ background: var(--green); box-shadow: 0 0 8px var(--green); }
-  .dot-cyan{ background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
-  .dot-amber{ background: var(--amber); box-shadow: 0 0 8px var(--amber); }
-
-  /* ===== NAV ===== */
-  .navbar{
-    position: sticky; top:0; z-index: 50;
-    background: rgba(10,13,18,0.92);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .navbar-inner{
-    max-width: 1180px; margin: 0 auto;
-    display:flex; align-items:center; gap: 4px;
+  .topbar-inner{
+    max-width: 1320px; margin:0 auto; height:100%;
     padding: 0 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .topbar-brand{
+    display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+  }
+  .topbar-badge{
+    width: 36px; height: 36px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #1e2c44, #0a1018 70%);
+    border: 1px solid var(--amber-dim);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber);
+    box-shadow: inset 0 0 12px rgba(232,161,61,.25), 0 0 16px rgba(232,161,61,.15);
+    flex-shrink: 0;
+  }
+  .topbar-badge svg{ width: 18px; height: 18px;}
+  .topbar-title{
+    display: flex; flex-direction: column; line-height: 1.15;
+  }
+  .topbar-title .t1{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: .16em;
+    color: var(--amber);
+    text-shadow: 0 0 12px var(--amber-glow);
+    direction: ltr;
+  }
+  .topbar-title .t2{
+    font-size: 10.5px; color: var(--text-muted);
+    letter-spacing: .04em;
+  }
+
+  .nav-desktop{
+    margin-right: auto;
+    display: flex; align-items: center; gap: 2px;
     overflow-x: auto;
     scrollbar-width: none;
   }
-  .navbar-inner::-webkit-scrollbar{ display:none; }
-  .navbar-inner a{
-    flex-shrink:0;
+  .nav-desktop::-webkit-scrollbar{ display: none;}
+  .nav-desktop a{
+    flex-shrink: 0;
     color: var(--text-muted);
-    text-decoration:none;
-    font-size: 0.86rem;
-    padding: 16px 12px;
-    border-bottom: 2px solid transparent;
-    white-space:nowrap;
-    transition: color .15s, border-color .15s;
+    text-decoration: none;
+    font-size: 0.83rem;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    white-space: nowrap;
+    transition: color .2s, background .2s;
+    position: relative;
   }
-  .navbar-inner a:hover{ color: var(--text); }
-  .navbar-inner a.active{ color: var(--amber); border-bottom-color: var(--amber); }
-  .navbar-brand{
+  .nav-desktop a:hover{ color: var(--text); background: rgba(232,161,61,.05);}
+  .nav-desktop a.active{ color: var(--amber);}
+  .nav-desktop a.active::after{
+    content:"";
+    position: absolute; bottom: 4px; left: 20%; right: 20%; height: 1px;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber-glow);
+  }
+  @media (max-width: 1080px){ .nav-desktop{ display: none;} }
+
+  .menu-toggle{
+    display: none;
+    margin-right: auto;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 40px; height: 40px;
+    border-radius: var(--radius);
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: .25s;
+  }
+  .menu-toggle:hover{ color: var(--amber); border-color: var(--amber-dim);}
+  @media (max-width: 1080px){ .menu-toggle{ display: flex;} }
+
+  .topbar-actions{
+    display: flex; align-items: center; gap: 8px;
+    margin-right: 0;
+    flex-shrink: 0;
+  }
+  .topbar-clock{
     font-family:'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--amber-dim);
-    padding: 16px 12px 16px 20px;
-    border-left: 1px solid var(--border-soft);
-    margin-left: 6px;
-    flex-shrink:0;
+    font-size: 11px; color: var(--text-muted);
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     direction: ltr;
+    letter-spacing: .06em;
+    display: none;
+  }
+  @media (min-width: 720px){ .topbar-clock{ display: block;} }
+  .topbar-clock .dot{
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-left: 6px;
+    box-shadow: 0 0 8px var(--green);
+    animation: pulseDot 1.8s ease-in-out infinite;
+    vertical-align: middle;
+  }
+  @keyframes pulseDot{
+    0%,100%{ opacity:1;}
+    50%{ opacity:.3;}
   }
 
-  /* ===== LAYOUT ===== */
+  .progress-bar{
+    position: absolute; bottom: -1px; left: 0; height: 2px; width: 0;
+    background: linear-gradient(90deg, var(--amber), var(--cyan));
+    box-shadow: 0 0 12px var(--amber-glow);
+    transition: width .1s linear;
+    z-index: 2;
+  }
+
+  /* =========== MOBILE DRAWER =========== */
+  .drawer-backdrop{
+    position: fixed; inset: 0; z-index: 90;
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+  .drawer-backdrop.open{ opacity:1; visibility: visible;}
+  .drawer{
+    position: fixed; top:0; right:0; bottom:0;
+    width: 320px; max-width: 86vw;
+    background: var(--bg-panel);
+    border-left: 1px solid var(--border);
+    z-index: 95;
+    transform: translateX(105%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    display: flex; flex-direction: column;
+    box-shadow: -20px 0 60px rgba(0,0,0,.6);
+  }
+  .drawer.open{ transform: translateX(0);}
+  .drawer-head{
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .drawer-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: .16em;
+    color: var(--amber);
+    text-shadow: 0 0 12px var(--amber-glow);
+    direction: ltr;
+  }
+  .drawer-close{
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 34px; height: 34px;
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: .2s;
+  }
+  .drawer-close:hover{ color: var(--red); border-color: var(--red);}
+  .drawer-nav{
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 8px 30px;
+  }
+  .drawer-nav a{
+    display: flex; align-items: center; gap: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+    transition: .2s;
+    border-right: 2px solid transparent;
+  }
+  .drawer-nav a::before{
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: .2s;
+  }
+  .drawer-nav a:hover{
+    color: var(--text);
+    background: rgba(232,161,61,.06);
+    border-right-color: var(--amber-dim);
+  }
+  .drawer-nav a:hover::before{ background: var(--amber); box-shadow: 0 0 8px var(--amber-glow);}
+  .drawer-nav a.active{
+    color: var(--amber);
+    background: linear-gradient(90deg, rgba(232,161,61,.12), transparent);
+    border-right-color: var(--amber);
+  }
+  .drawer-nav a.active::before{ background: var(--amber); box-shadow: 0 0 10px var(--amber-glow);}
+  .drawer-foot{
+    padding: 14px 20px;
+    border-top: 1px solid var(--border-soft);
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: .1em;
+    font-family:'JetBrains Mono', monospace;
+    text-align: center;
+    direction: ltr;
+    flex-shrink: 0;
+  }
+  @media (min-width: 1081px){ .drawer, .drawer-backdrop{ display: none;} }
+
+  /* =========== LAYOUT =========== */
   main{
-    max-width: 880px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 24px;
+    position: relative;
+    z-index: 1;
   }
+  @media (max-width: 700px){ main{ padding: 0 18px;} }
+  @media (max-width: 420px){ main{ padding: 0 14px;} }
+
   section{
     padding: 76px 0;
     border-bottom: 1px solid var(--border-soft);
-    scroll-margin-top: 60px;
+    scroll-margin-top: calc(var(--topbar-h) + 20px);
+    position: relative;
   }
-  section:last-of-type{ border-bottom: none; }
+  @media (max-width: 600px){ section{ padding: 56px 0;} }
+  section:last-of-type{ border-bottom: none;}
+
   .section-head{
-    display:flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 40px;
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 38px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border-soft);
+    position: relative;
+    flex-wrap: wrap;
+  }
+  .section-head::after{
+    content:"";
+    position: absolute; bottom: -1px; right: 0;
+    width: 70px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amber));
+    box-shadow: 0 0 12px var(--amber-glow);
   }
   .section-num{
     font-family:'JetBrains Mono', monospace;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: var(--amber);
     border: 1px solid var(--amber-dim);
     border-radius: var(--radius);
     padding: 3px 9px;
-    flex-shrink:0;
+    background: rgba(232,161,61,.06);
+    letter-spacing: .06em;
+    flex-shrink: 0;
+    text-shadow: 0 0 10px var(--amber-glow);
   }
   .section-head h2{
-    font-size: 1.55rem;
+    font-size: clamp(1.15rem, 3vw, 1.5rem);
     font-weight: 700;
-    color: #fff;
+    color: var(--text);
+    line-height: 1.4;
   }
   .lede{
     color: var(--text-muted);
-    font-size: 1.02rem;
-    max-width: 60ch;
-    margin-bottom: 30px;
+    font-size: 1rem;
+    max-width: 62ch;
+    margin-bottom: 28px;
+    line-height: 1.9;
   }
   h3.sub{
-    font-size: 1.08rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--amber);
-    margin: 34px 0 14px;
+    margin: 36px 0 16px;
+    display: flex; align-items: center; gap: 10px;
+    text-shadow: 0 0 20px var(--amber-glow);
+    line-height: 1.5;
+    flex-wrap: wrap;
   }
-  h3.sub:first-child{ margin-top: 0; }
-  p{ color: var(--text); margin-bottom: 14px; max-width: 68ch; }
+  h3.sub::before{
+    content: "";
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--amber);
+    box-shadow: 0 0 10px var(--amber-glow);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+  h3.sub:first-child{ margin-top: 0;}
+  p{
+    color: var(--text);
+    margin-bottom: 14px;
+    max-width: 68ch;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  p strong{ color: #fff; font-weight: 700;}
+
   .callout{
-    background: var(--bg-panel);
+    background: linear-gradient(180deg, var(--bg-panel), rgba(14,20,32,.6));
     border: 1px solid var(--border);
     border-right: 3px solid var(--amber);
     padding: 16px 20px;
     border-radius: var(--radius);
     margin: 20px 0;
     color: var(--text);
-    font-size: 0.97rem;
+    font-size: 0.96rem;
+    position: relative;
+    box-shadow: inset 0 0 40px rgba(232,161,61,.03);
+    transition: border-color .3s, box-shadow .3s;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.8;
   }
-  .callout.danger{ border-right-color: var(--red); }
-  .callout.info{ border-right-color: var(--cyan); }
+  .callout::before{
+    content: "";
+    position: absolute; top:0; bottom:0; right:-3px; width:3px;
+    background: var(--amber);
+    box-shadow: 0 0 16px var(--amber-glow);
+  }
+  .callout:hover{
+    border-color: rgba(232,161,61,.35);
+    box-shadow: inset 0 0 40px rgba(232,161,61,.06), 0 8px 24px rgba(0,0,0,.25);
+  }
+  .callout.danger{ border-right-color: var(--red);}
+  .callout.danger::before{ background: var(--red); box-shadow: 0 0 16px var(--red-glow);}
+  .callout.danger:hover{ border-color: rgba(227,93,93,.5);}
+  .callout.info{ border-right-color: var(--cyan);}
+  .callout.info::before{ background: var(--cyan); box-shadow: 0 0 16px var(--cyan-glow);}
+  .callout.info:hover{ border-color: rgba(95,194,194,.5);}
 
-  /* pill lists */
+  /* =========== PILLBOX (FIXED) =========== */
   ul.pillbox{
-    list-style:none;
-    display:flex; flex-wrap:wrap;
-    gap:9px;
-    margin: 18px 0 8px;
+    list-style: none;
+    display: flex; flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 8px;
   }
   ul.pillbox li{
-    background: var(--bg-panel);
+    background: linear-gradient(180deg, var(--bg-panel), rgba(14,20,32,.7));
     border: 1px solid var(--border);
-    padding: 7px 14px;
+    padding: 8px 30px 8px 14px; /* RTL: right=30 (dot space), left=14 */
     border-radius: var(--radius);
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     color: var(--text-muted);
+    position: relative;
+    transition: .25s;
+    max-width: 100%;
+    word-break: break-word;
+    line-height: 1.6;
+  }
+  ul.pillbox li::before{
+    content: "";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px;
+    background: var(--amber);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--amber-glow);
+  }
+  ul.pillbox li:hover{
+    color: var(--text);
+    border-color: rgba(232,161,61,.35);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.3);
   }
 
-  /* comparison grid (do/dont) */
-  .grid2{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin: 22px 0;
-  }
-  @media (max-width: 640px){ .grid2{ grid-template-columns: 1fr; } }
-  .panel{
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-  }
-  .panel h4{
-    font-size: 0.82rem;
-    font-family:'JetBrains Mono', monospace;
-    letter-spacing:0.02em;
-    margin-bottom: 12px;
-    direction: ltr;
-    text-align: right;
-  }
-  .panel.ok h4{ color: var(--green); }
-  .panel.no h4{ color: var(--red); }
-  .panel ul{ list-style:none; }
-  .panel li{
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    padding: 5px 0;
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .panel li:last-child{ border-bottom:none; }
-
-  /* definitions */
   .term{
     border-top: 1px solid var(--border-soft);
     padding: 20px 0;
-    display:grid;
-    grid-template-columns: 140px 1fr;
-    gap: 18px;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 20px;
+    transition: padding .25s;
   }
-  .term:first-of-type{ border-top:none; }
-  @media (max-width: 560px){ .term{ grid-template-columns: 1fr; gap:6px; } }
+  @media (max-width: 620px){ .term{ grid-template-columns: 1fr; gap: 8px; padding: 18px 0;} }
+  .term:first-of-type{ border-top: none;}
+  .term:hover{ padding-right: 8px;}
+  .term:hover .term-key{ color: var(--amber); text-shadow: 0 0 14px var(--amber-glow);}
   .term .term-key{
     font-weight: 700;
-    color: #fff;
-    font-size: 0.98rem;
+    color: var(--text);
+    font-size: 0.97rem;
+    transition: .3s;
+    word-break: break-word;
+    line-height: 1.5;
   }
   .term .term-key span{
-    display:block;
+    display: block;
     font-family:'JetBrains Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: var(--amber);
     font-weight: 400;
-    margin-top: 3px;
+    margin-top: 4px;
     direction: ltr;
+    letter-spacing: .04em;
+    text-align: right;
   }
-  .term p{ margin:0; font-size: 0.94rem; color: var(--text-muted); }
+  .term p{ margin: 0; font-size: 0.93rem; color: var(--text-muted);}
 
-  /* radio transcript */
-  .transcript{
-    background: #0d1117;
+  .grid2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 20px 0;
+  }
+  @media (max-width: 640px){ .grid2{ grid-template-columns: 1fr;} }
+  .panel{
+    background: linear-gradient(180deg, var(--bg-panel), rgba(14,20,32,.6));
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 16px 20px;
+    padding: 18px 20px;
+    transition: .3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .panel::before{
+    content: "";
+    position: absolute; top: 0; right: 0; width: 60px; height: 60px;
+    background: radial-gradient(circle at top right, rgba(232,161,61,.06), transparent 70%);
+    transition: .4s;
+  }
+  .panel:hover{
+    border-color: rgba(232,161,61,.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  }
+  .panel:hover::before{ width: 100%; height: 100%;}
+  .panel h4{
+    font-size: 0.8rem;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing: .06em;
+    margin-bottom: 14px;
+    direction: ltr;
+    text-align: right;
+    display: flex; align-items: center; gap: 8px;
+    justify-content: flex-end;
+    text-transform: uppercase;
+  }
+  .panel h4 svg{ width: 15px; height: 15px; flex-shrink: 0;}
+  .panel.ok h4{ color: var(--green);}
+  .panel.ok h4 svg{ color: var(--green);}
+  .panel.no h4{ color: var(--red);}
+  .panel.no h4 svg{ color: var(--red);}
+  .panel ul{ list-style: none;}
+
+  /* =========== PANEL LIST (FIXED) =========== */
+  .panel li{
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    padding: 7px 22px 7px 0; /* RTL: right=22 (dot space), left=0 */
+    border-bottom: 1px solid var(--border-soft);
+    position: relative;
+    word-wrap: break-word;
+    transition: .2s;
+    line-height: 1.7;
+  }
+  .panel li::before{
+    content: "";
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px;
+    background: var(--amber);
+    border-radius: 50%;
+    opacity: .8;
+  }
+  .panel.ok li::before{ background: var(--green);}
+  .panel.no li::before{ background: var(--red);}
+  .panel li:last-child{ border-bottom: none;}
+  .panel li:hover{ color: var(--text); padding-right: 28px;}
+
+  .transcript{
+    background: linear-gradient(180deg, #08121a, #050a12);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     margin: 16px 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 60px rgba(95,194,194,.04);
+  }
+  .transcript::before{
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: .6;
+  }
+  .transcript::after{
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(95,194,194,.015) 0 1px, transparent 1px 4px);
+    pointer-events: none;
+  }
+  .transcript-head{
+    padding: 8px 14px;
+    background: rgba(8,18,26,.85);
+    border-bottom: 1px solid var(--border-soft);
+    display: flex; align-items: center; gap: 8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+  }
+  .transcript-head::before{
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--green);
+    animation: pulseDot 1.8s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .transcript-head::after{
+    content: "EAGLE-CTRL // LIVE";
+    margin-right: auto;
+    color: var(--text-faint);
+    opacity:.7;
+    letter-spacing: .15em;
+    font-size: 9px;
+  }
+  .transcript-body{
+    padding: 16px 18px;
+    position: relative;
+    z-index: 2;
   }
   .transcript .line{
     font-family:'JetBrains Mono', monospace;
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     color: var(--cyan);
     direction: ltr;
     text-align: left;
-    line-height: 1.9;
+    line-height: 1.95;
+    word-break: break-word;
+    display: flex; align-items: flex-start; gap: 10px;
   }
-  .transcript .line + .line{ color: var(--text-muted); }
+  .transcript .line + .line{
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .transcript .line::before{
+    content: "›";
+    color: var(--amber-dim);
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+  .transcript .line + .line::before{ content: "‹"; color: var(--cyan); }
 
-  /* code table */
+  ol.steps{
+    list-style: none;
+    counter-reset: step;
+    margin: 22px 0;
+    padding: 0;
+  }
+  ol.steps li{
+    counter-increment: step;
+    position: relative;
+    padding-right: 54px;
+    padding-bottom: 22px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    border-right: 1px solid var(--border);
+    margin-right: 16px;
+    transition: .25s;
+    word-wrap: break-word;
+    line-height: 1.8;
+  }
+  @media (max-width: 500px){
+    ol.steps li{ padding-right: 44px; font-size: 0.92rem; margin-right: 14px;}
+  }
+  ol.steps li:last-child{ border-color: transparent; padding-bottom: 0;}
+  ol.steps li::before{
+    content: counter(step);
+    position: absolute; right: -17px; top: -2px;
+    width: 32px; height: 32px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--amber-dim);
+    color: var(--amber);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    transition: .3s;
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  ol.steps li:hover{ color: var(--text); border-right-color: rgba(232,161,61,.4);}
+  ol.steps li:hover::before{
+    background: var(--amber);
+    color: #111;
+    box-shadow: 0 0 0 4px var(--bg), 0 0 20px var(--amber-glow);
+  }
+
+  .table-toolbar{
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin: 20px 0 14px;
+    align-items: center;
+  }
+  .table-search{
+    flex: 1; min-width: 200px;
+    position: relative;
+  }
+  .table-search input{
+    width: 100%;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 11px 40px 11px 14px;
+    border-radius: var(--radius);
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 0.9rem;
+    transition: .25s;
+    outline: none;
+  }
+  .table-search input::placeholder{ color: var(--text-faint);}
+  .table-search input:focus{
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(232,161,61,.1), 0 0 18px rgba(232,161,61,.15);
+  }
+  .table-search svg{
+    position: absolute; right: 12px; top: 50%;
+    transform: translateY(-50%);
+    width: 16px; height: 16px;
+    color: var(--text-faint);
+    pointer-events: none;
+  }
+  .filter-chips{
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .filter-chip{
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: .2s;
+    white-space: nowrap;
+  }
+  .filter-chip:hover{ color: var(--text); border-color: rgba(232,161,61,.4);}
+  .filter-chip.active{
+    background: rgba(232,161,61,.12);
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  .table-wrap{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--bg-panel), rgba(14,20,32,.4));
+    scrollbar-width: thin;
+  }
+  .table-wrap::-webkit-scrollbar{ height: 8px;}
+  .table-wrap::-webkit-scrollbar-thumb{ background: var(--border); border-radius: 4px;}
+
   .code-table{
-    width:100%;
+    width: 100%;
     border-collapse: collapse;
-    margin: 10px 0 30px;
-    font-size: 0.92rem;
+    font-size: 0.9rem;
+    min-width: 400px;
   }
   .code-table th{
     text-align: right;
     font-weight: 600;
     color: var(--text-muted);
-    font-size: 0.8rem;
-    padding: 10px 14px;
+    font-size: 0.76rem;
+    padding: 12px 16px;
     border-bottom: 1px solid var(--border);
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    background: var(--bg-elevated);
+    position: sticky; top: 0;
+    z-index: 2;
   }
   .code-table td{
-    padding: 11px 14px;
+    padding: 11px 16px;
     border-bottom: 1px solid var(--border-soft);
     vertical-align: middle;
+    transition: background .2s;
+    word-break: break-word;
   }
-  .code-table tr:hover td{ background: var(--bg-panel); }
+  .code-table tr:last-child td{ border-bottom: none;}
+  .code-table tr:hover td{ background: rgba(232,161,61,.04);}
+  .code-table tr.hide{ display: none;}
   .code-table .code{
     font-family:'JetBrains Mono', monospace;
     color: var(--amber);
     direction: ltr;
     text-align: left;
     white-space: nowrap;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: .25s;
+  }
+  .code-table tr.critical .code{ color: var(--red); font-weight: 700;}
+  .code-table tr.critical:hover .code{ text-shadow: 0 0 12px var(--red-glow);}
+  .code-table tr.positive .code{ color: var(--green);}
+  .code-table tr.positive:hover .code{ text-shadow: 0 0 12px var(--green-glow);}
+  .empty-msg{
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--text-faint);
     font-size: 0.9rem;
+    display: none;
   }
-  .code-table tr.critical .code{ color: var(--red); font-weight: 700; }
-  .code-table tr.positive .code{ color: var(--green); }
+  .empty-msg.show{ display: block;}
 
-  /* numbered steps */
-  ol.steps{
-    list-style:none;
-    counter-reset: step;
-    margin: 20px 0;
-  }
-  ol.steps li{
-    counter-increment: step;
-    position: relative;
-    padding-right: 44px;
-    padding-bottom: 18px;
-    font-size: 0.96rem;
-    color: var(--text);
-    border-right: 1px solid var(--border);
-    margin-right: 15px;
-  }
-  ol.steps li:last-child{ border-color: transparent; padding-bottom: 0; }
-  ol.steps li::before{
-    content: counter(step);
-    position: absolute;
-    right: -16px; top: -2px;
-    width: 30px; height: 30px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--amber-dim);
-    color: var(--amber);
-    border-radius: 50%;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-  }
-
-  /* priority list */
-  .priority{ margin: 18px 0; }
+  .priority{ margin: 20px 0;}
   .priority-row{
-    display:flex; align-items:center; gap:14px;
-    padding: 12px 0;
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 0;
     border-bottom: 1px solid var(--border-soft);
+    transition: padding .2s;
   }
-  .priority-row:last-child{ border-bottom:none; }
+  .priority-row:last-child{ border-bottom: none;}
+  .priority-row:hover{ padding-right: 8px;}
   .priority-rank{
     font-family:'JetBrains Mono', monospace;
     font-size: 0.78rem;
     color: var(--amber);
-    width: 24px; text-align:center; flex-shrink:0;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--amber-dim);
+    border-radius: 50%;
+    background: var(--bg-elevated);
+    flex-shrink: 0;
   }
-  .priority-row span{ color: var(--text); font-size: 0.95rem; }
+  .priority-row span:last-child{ color: var(--text); font-size: 0.94rem;}
 
-  /* violations */
-  .violation-grid{
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px 24px;
-    margin: 18px 0;
-  }
-  @media (max-width:560px){ .violation-grid{ grid-template-columns: 1fr; } }
-  .violation-grid div{
-    font-size: 0.92rem;
-    color: var(--text-muted);
-    padding: 8px 0;
-    border-bottom: 1px dashed var(--border-soft);
-  }
-
-  /* severity scale */
   .severity{
-    display:flex; flex-direction:column; gap:0;
+    display: flex; flex-direction: column;
     margin: 20px 0;
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow:hidden;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--bg-panel), rgba(14,20,32,.4));
   }
   .severity-row{
-    display:flex; align-items:center; gap:16px;
-    padding: 13px 18px;
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 18px;
     border-bottom: 1px solid var(--border-soft);
     font-size: 0.92rem;
+    color: var(--text);
+    transition: background .25s;
+    position: relative;
   }
-  .severity-row:last-child{ border-bottom:none; }
-  .severity-bar{ width:5px; height:22px; border-radius:2px; flex-shrink:0; }
+  .severity-row:last-child{ border-bottom: none;}
+  .severity-row:hover{ background: rgba(232,161,61,.04);}
+  .severity-bar{
+    width: 5px; height: 22px;
+    border-radius: 2px; flex-shrink: 0;
+    box-shadow: 0 0 12px currentColor;
+  }
+  .severity-row .level{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    margin-right: auto;
+    letter-spacing: .06em;
+    direction: ltr;
+  }
 
-  /* closing charter */
-  .charter{
-    text-align:center;
-    padding: 90px 24px 60px;
-    background: linear-gradient(180deg, #0a0d12, #0d1119);
+  /* =========== VIOLATION GRID (FIXED) =========== */
+  .violation-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 18px;
+    margin: 20px 0;
   }
-  .charter blockquote{
-    font-size: clamp(1.3rem, 3vw, 1.7rem);
-    font-weight: 700;
+  @media (max-width: 560px){ .violation-grid{ grid-template-columns: 1fr;} }
+
+  .violation-grid > div{
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    /* RTL: right=44 (dot space), left=14 */
+    padding: 14px 44px 14px 14px;
+    position: relative;
+    background: linear-gradient(180deg, rgba(14,20,32,.5), transparent);
+    border-right: 2px solid var(--border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    transition: padding-right .3s, color .3s, background .3s, border-color .3s;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.75;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+  }
+
+  .violation-grid > div::before{
+    content: "";
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    background: var(--red);
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px var(--red-glow);
+    border-radius: 1px;
+    transition: box-shadow .3s, background .3s;
+  }
+
+  .violation-grid > div::after{
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    margin-top: -12px;
+    background: radial-gradient(circle, rgba(227,93,93,.12), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: background .3s;
+  }
+
+  .violation-grid > div:hover{
+    color: var(--text);
+    border-right-color: var(--red);
+    background: linear-gradient(180deg, rgba(227,93,93,.06), transparent);
+    padding-right: 48px;
+  }
+
+  .violation-grid > div:hover::before{
+    background: var(--amber);
+    box-shadow: 0 0 16px var(--amber-glow), 0 0 0 3px rgba(232,161,61,.14);
+  }
+
+  .violation-grid > div:hover::after{
+    background: radial-gradient(circle, rgba(232,161,61,.15), transparent 70%);
+  }
+
+  /* =========== HERO =========== */
+  .hero{
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 24px 80px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% 15%, rgba(232,161,61,.10), transparent 65%),
+      radial-gradient(ellipse 600px 400px at 50% 90%, rgba(95,194,194,.06), transparent 70%),
+      linear-gradient(180deg, #06080d 0%, #0a0f1a 100%);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  @media (max-width: 700px){ .hero{ min-height: 82vh; padding: 80px 18px 60px;}}
+  .hero-radar{
+    position: absolute;
+    top: 50%; left: 50%;
+    width: min(880px, 130vw);
+    height: min(880px, 130vw);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: .5;
+  }
+  .hero-radar-sweep{
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+      transparent 0deg,
+      transparent 340deg,
+      rgba(232,161,61,.03) 350deg,
+      rgba(232,161,61,.18) 358deg,
+      rgba(232,161,61,.4) 360deg,
+      transparent 360deg);
+    animation: radarSweep 6s linear infinite;
+    mask-image: radial-gradient(circle, #000 25%, #000 65%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle, #000 25%, #000 65%, transparent 75%);
+  }
+  @keyframes radarSweep{
+    from{ transform: rotate(0deg);}
+    to{ transform: rotate(360deg);}
+  }
+  .hero-radar-rings{
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(232,161,61,.06);
+  }
+  .hero-radar-rings::before,
+  .hero-radar-rings::after{
+    content: "";
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(232,161,61,.06);
+  }
+  .hero-radar-rings::before{ inset: 12%;}
+  .hero-radar-rings::after{ inset: 26%;}
+  .hero-crosshair{
+    position: absolute;
+    inset: 14px;
+    pointer-events: none;
+    opacity: .35;
+  }
+  .hero-crosshair span{
+    position: absolute;
+    background: var(--amber);
+    box-shadow: 0 0 6px var(--amber-glow);
+  }
+  .hero-crosshair span.h{ height: 1px; width: 30px;}
+  .hero-crosshair span.v{ width: 1px; height: 30px;}
+  .hero-crosshair span.tl-h{ top: 0; left: 0;}
+  .hero-crosshair span.tl-v{ top: 0; left: 0;}
+  .hero-crosshair span.tr-h{ top: 0; right: 0;}
+  .hero-crosshair span.tr-v{ top: 0; right: 0;}
+  .hero-crosshair span.bl-h{ bottom: 0; left: 0;}
+  .hero-crosshair span.bl-v{ bottom: 0; left: 0;}
+  .hero-crosshair span.br-h{ bottom: 0; right: 0;}
+  .hero-crosshair span.br-v{ bottom: 0; right: 0;}
+  @media (max-width: 500px){ .hero-crosshair{ inset: 8px;} .hero-crosshair span.h{ width: 20px;} .hero-crosshair span.v{ height: 20px;}}
+
+  .hero-hud{
+    position: absolute;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--text-faint);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    opacity: .65;
+    direction: ltr;
+    z-index: 3;
+  }
+  .hero-hud.tl{ top: 26px; left: 26px;}
+  .hero-hud.tr{ top: 26px; right: 26px;}
+  .hero-hud.bl{ bottom: 26px; left: 26px;}
+  .hero-hud.br{ bottom: 26px; right: 26px;}
+  @media (max-width: 700px){
+    .hero-hud{ font-size: 8.5px;}
+    .hero-hud.tl, .hero-hud.tr{ top: 18px;}
+    .hero-hud.bl, .hero-hud.br{ bottom: 18px;}
+    .hero-hud.tl, .hero-hud.bl{ left: 18px;}
+    .hero-hud.tr, .hero-hud.br{ right: 18px;}
+  }
+
+  .hero-inner{
+    position: relative; z-index: 5;
+    display: flex; flex-direction: column; align-items: center;
+    max-width: 720px;
+  }
+  .hero-seal{
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #1c2b42, #0a1018 70%);
+    border: 1px solid var(--amber-dim);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber);
+    margin-bottom: 28px;
+    position: relative;
+    box-shadow:
+      0 0 0 6px rgba(232,161,61,.05),
+      0 0 40px rgba(232,161,61,.25),
+      inset 0 0 20px rgba(232,161,61,.2);
+  }
+  .hero-seal::before{
+    content: "";
+    position: absolute; inset: -14px;
+    border: 1px dashed rgba(232,161,61,.2);
+    border-radius: 50%;
+    animation: sealSpin 30s linear infinite;
+  }
+  @keyframes sealSpin{ to{ transform: rotate(360deg);}}
+  .hero-seal svg{ width: 44px; height: 44px;}
+
+  .hero-eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.22em;
+    color: var(--amber);
+    direction: ltr;
+    margin-bottom: 24px;
+    padding: 7px 16px;
+    border: 1px solid rgba(232,161,61,.28);
+    border-radius: 40px;
+    background: rgba(232,161,61,.04);
+    display: inline-block;
+    text-shadow: 0 0 16px var(--amber-glow);
+    animation: heroFade .9s ease .1s both;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hero h1{
+    font-size: clamp(1.7rem, 5vw, 3.1rem);
+    font-weight: 800;
+    line-height: 1.3;
     color: #fff;
-    max-width: 26ch;
-    margin: 0 auto 40px;
-    line-height: 1.6;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+    animation: heroFade .9s ease .25s both;
+    text-shadow: 0 4px 30px rgba(0,0,0,.6);
   }
-  .charter blockquote span{ color: var(--amber); }
-  .charter-list{
-    display:flex; flex-wrap:wrap; justify-content:center;
-    gap: 12px;
-    max-width: 640px;
-    margin: 0 auto;
+  .hero h1 .accent{
+    background: linear-gradient(120deg, var(--amber), #f0c46a, var(--amber));
+    background-size: 200% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 6s ease-in-out infinite;
   }
-  .charter-list div{
-    background: var(--bg-panel);
+  @keyframes shine{
+    0%,100%{ background-position: 0% 50%;}
+    50%{ background-position: 100% 50%;}
+  }
+  .hero-divider{
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, var(--amber), var(--cyan));
+    box-shadow: 0 0 16px var(--amber-glow);
+    margin: 8px auto 22px;
+    animation: heroFade .9s ease .35s both;
+  }
+
+  .hero p.tagline{
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 46ch;
+    margin-bottom: 38px;
+    line-height: 1.9;
+    animation: heroFade .9s ease .45s both;
+    padding: 0 8px;
+  }
+  @keyframes heroFade{
+    from{ opacity: 0; transform: translateY(20px);}
+    to{ opacity: 1; transform: translateY(0);}
+  }
+
+  .hero-badges{
+    display: flex; gap: 10px;
+    flex-wrap: wrap; justify-content: center;
+    animation: heroFade .9s ease .6s both;
+  }
+  .badge{
+    display: flex; align-items: center; gap: 9px;
+    background: linear-gradient(180deg, var(--bg-panel), rgba(14,20,32,.7));
     border: 1px solid var(--border);
     padding: 9px 16px;
     border-radius: var(--radius);
-    font-size: 0.88rem;
-    color: var(--text-muted);
+    font-size: 0.87rem;
+    color: var(--text);
+    transition: .3s;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing: .04em;
   }
+  .badge:hover{
+    border-color: rgba(232,161,61,.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.3);
+  }
+  .badge svg{ width: 14px; height: 14px; flex-shrink: 0;}
+  .badge-dot{
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    animation: pulseDot 2s ease-in-out infinite;
+  }
+  .dot-green{ background: var(--green); box-shadow: 0 0 8px var(--green);}
+  .dot-cyan{ background: var(--cyan); box-shadow: 0 0 8px var(--cyan);}
+  .dot-amber{ background: var(--amber); box-shadow: 0 0 8px var(--amber);}
+
+  .charter{
+    text-align: center;
+    padding: 100px 24px 70px;
+    background:
+      radial-gradient(ellipse 700px 300px at 50% 50%, rgba(232,161,61,.08), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(0,0,0,.15));
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--border-soft);
+  }
+  @media (max-width: 500px){ .charter{ padding: 70px 18px 50px;}}
+  .charter::before,
+  .charter::after{
+    content: "";
+    position: absolute; top: 50%;
+    width: 180px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amber-dim), transparent);
+  }
+  .charter::before{ left: 6%;}
+  .charter::after{ right: 6%;}
+  @media (max-width: 700px){
+    .charter::before, .charter::after{ width: 70px;}
+  }
+  .charter-icon{
+    width: 44px; height: 44px;
+    margin: 0 auto 30px;
+    color: var(--amber);
+    opacity: .85;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .charter-icon svg{ width: 100%; height: 100%;}
+  .charter blockquote{
+    font-size: clamp(1.15rem, 3vw, 1.65rem);
+    font-weight: 700;
+    color: var(--text);
+    max-width: 34ch;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+    position: relative;
+    z-index: 2;
+  }
+  .charter blockquote .accent{
+    color: var(--amber);
+    text-shadow: 0 0 24px var(--amber-glow);
+    position: relative;
+    white-space: nowrap;
+  }
+  .charter blockquote .accent::after{
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: -4px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  }
+  .charter-list{
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 10px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .charter-list div{
+    background: linear-gradient(180deg, var(--bg-panel), rgba(14,20,32,.7));
+    border: 1px solid var(--border);
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    transition: .25s;
+  }
+  .charter-list div:hover{
+    color: var(--text);
+    border-color: rgba(232,161,61,.35);
+    transform: translateY(-2px);
+  }
+
   footer{
-    text-align:center;
-    padding: 40px 24px 60px;
+    text-align: center;
+    padding: 60px 24px 70px;
     color: var(--text-faint);
     font-size: 0.82rem;
+    border-top: 1px solid var(--border-soft);
+    background: rgba(0,0,0,.2);
+    position: relative;
   }
-  footer .mono{ display:block; margin-top:6px; letter-spacing: 0.05em; }
+  footer::before{
+    content: "";
+    position: absolute; top: -1px; left: 25%; right: 25%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amber-dim), transparent);
+  }
+  .footer-brand{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .16em;
+    color: var(--amber);
+    margin-bottom: 8px;
+    text-shadow: 0 0 14px var(--amber-glow);
+    direction: ltr;
+  }
+  .footer-sub{
+    font-size: 0.75rem;
+    letter-spacing: .2em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    font-family:'JetBrains Mono', monospace;
+    direction: ltr;
+  }
+  .footer-divider{
+    width: 40px; height: 1px;
+    background: var(--border);
+    margin: 22px auto;
+  }
+  .footer-credit{
+    font-size: 0.82rem;
+    color: var(--text-faint);
+    letter-spacing: .04em;
+  }
+  .footer-credit b{
+    background: linear-gradient(120deg, var(--amber), #f0c46a, var(--amber));
+    background-size: 200% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    letter-spacing: .08em;
+    animation: shine 5s ease-in-out infinite;
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  .back-top{
+    position: fixed;
+    bottom: 22px; left: 22px;
+    width: 46px; height: 46px;
+    background: linear-gradient(180deg, var(--bg-elevated), var(--bg-panel));
+    border: 1px solid var(--border);
+    color: var(--amber);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 22px rgba(0,0,0,.5), 0 0 24px rgba(232,161,61,.15);
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s, transform .3s, border-color .3s;
+    z-index: 70;
+  }
+  .back-top.show{ opacity: 1; pointer-events: auto;}
+  .back-top:hover{
+    transform: translateY(-4px);
+    border-color: var(--amber);
+    box-shadow: 0 10px 30px rgba(0,0,0,.6), 0 0 32px rgba(232,161,61,.35);
+  }
+  .back-top svg{ width: 18px; height: 18px;}
+  @media (max-width: 500px){
+    .back-top{ bottom: 16px; left: 16px; width: 42px; height: 42px;}
+  }
+
+  .reveal{
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.visible{ opacity: 1; transform: translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: .01ms !important; transition-duration: .01ms !important;}
+    .reveal{ opacity: 1; transform: none;}
+    html{ scroll-behavior: auto;}
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 380px){
+    body{ font-size: 15px;}
+    .topbar-title .t1{ font-size: 10px;}
+    .topbar-title .t2{ font-size: 9.5px;}
+    .topbar-badge{ width: 32px; height: 32px;}
+    .topbar-badge svg{ width: 16px; height: 16px;}
+  }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-radar">
-    <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
-      <circle cx="400" cy="120" r="60" fill="none" stroke="#e8a13d" stroke-opacity="0.18"/>
-      <circle cx="400" cy="120" r="120" fill="none" stroke="#e8a13d" stroke-opacity="0.12"/>
-      <circle cx="400" cy="120" r="180" fill="none" stroke="#e8a13d" stroke-opacity="0.07"/>
-      <circle cx="400" cy="120" r="240" fill="none" stroke="#e8a13d" stroke-opacity="0.04"/>
-      <line x1="400" y1="-120" x2="400" y2="360" stroke="#e8a13d" stroke-opacity="0.05"/>
-      <line x1="160" y1="120" x2="640" y2="120" stroke="#e8a13d" stroke-opacity="0.05"/>
-    </svg>
-  </div>
-  <div class="hero-eyebrow">SALVATORES AVIATION UNIT · v1.0</div>
-  <h1>هندبوک رسمی واحد هوانوردی شهر سالواتورس</h1>
-  <p class="tagline">سند داخلی واحد هوانوردی — نظم، هماهنگی و استاندارد واحد در تمامی عملیات‌های هوایی شهر</p>
-  <div class="hero-badges">
-    <div class="badge"><span class="badge-dot dot-green"></span>ایمنی</div>
-    <div class="badge"><span class="badge-dot dot-cyan"></span>انضباط</div>
-    <div class="badge"><span class="badge-dot dot-amber"></span>هماهنگی</div>
-  </div>
-</div>
+<!-- ============ TOPBAR ============ -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-toggle" id="menuToggle" aria-label="باز کردن منو" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="4" y1="7" x2="20" y2="7"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="17" x2="20" y2="17"/>
+      </svg>
+    </button>
 
-<nav class="navbar">
-  <div class="navbar-inner">
-    <div class="navbar-brand">EAGLE-CTRL</div>
-    <a href="#intro">معرفی</a>
-    <a href="#rp">قوانین RP</a>
-    <a href="#radio">ارتباطات رادیویی</a>
-    <a href="#codes">کدهای رادیویی</a>
-    <a href="#callsign">Call Sign</a>
-    <a href="#preflight">قبل از پرواز</a>
-    <a href="#inflight">حین پرواز</a>
-    <a href="#pickup">Pickup</a>
-    <a href="#emergency">اضطراری</a>
-    <a href="#discipline">انضباط</a>
-  </div>
-</nav>
+    <div class="topbar-brand">
+      <div class="topbar-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2 L20 6 V12 C20 16.5 16.5 20.5 12 22 C7.5 20.5 4 16.5 4 12 V6 Z"/>
+          <path d="M9 12 L11 14 L15 10"/>
+        </svg>
+      </div>
+      <div class="topbar-title">
+        <span class="t1">SAU / EAGLE-CTRL</span>
+        <span class="t2">هندبوک واحد هوانوردی</span>
+      </div>
+    </div>
 
+    <nav class="nav-desktop" id="navDesktop" aria-label="ناوبری اصلی">
+      <a href="#intro">معرفی</a>
+      <a href="#rp">قوانین RP</a>
+      <a href="#radio">ارتباطات</a>
+      <a href="#codes">کدهای رادیویی</a>
+      <a href="#callsign">Call Sign</a>
+      <a href="#preflight">قبل از پرواز</a>
+      <a href="#inflight">حین پرواز</a>
+      <a href="#pickup">Pickup</a>
+      <a href="#emergency">اضطراری</a>
+      <a href="#discipline">انضباط</a>
+    </nav>
+
+    <div class="topbar-actions">
+      <div class="topbar-clock" aria-hidden="true">
+        <span id="clockText">--:--:--</span>
+        <span class="dot"></span>
+      </div>
+    </div>
+
+    <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+  </div>
+</header>
+
+<!-- ============ MOBILE DRAWER ============ -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer" aria-label="منوی موبایل">
+  <div class="drawer-head">
+    <span class="drawer-title">NAVIGATION</span>
+    <button class="drawer-close" id="drawerClose" aria-label="بستن منو">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="drawer-nav" id="drawerNav" aria-label="ناوبری موبایل">
+    <a href="#intro">معرفی واحد هوانوردی</a>
+    <a href="#rp">قوانین عمومی RolePlay</a>
+    <a href="#radio">قوانین ارتباطات رادیویی</a>
+    <a href="#codes">جدول کدهای رادیویی</a>
+    <a href="#callsign">Call Sign و پروتکل</a>
+    <a href="#preflight">چک‌لیست قبل از پرواز</a>
+    <a href="#inflight">قوانین حین پرواز</a>
+    <a href="#pickup">Pickup و پشتیبانی</a>
+    <a href="#emergency">شرایط اضطراری</a>
+    <a href="#discipline">انضباط و قوانین نهایی</a>
+  </nav>
+  <div class="drawer-foot">SAU · EAGLE-CTRL · v1.0</div>
+</aside>
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-label="بخش معرفی">
+  <div class="hero-radar" aria-hidden="true">
+    <div class="hero-radar-sweep"></div>
+    <div class="hero-radar-rings"></div>
+  </div>
+  <div class="hero-crosshair" aria-hidden="true">
+    <span class="h tl-h"></span><span class="v tl-v"></span>
+    <span class="h tr-h"></span><span class="v tr-v"></span>
+    <span class="h bl-h"></span><span class="v bl-v"></span>
+    <span class="h br-h"></span><span class="v br-v"></span>
+  </div>
+
+  <div class="hero-hud tl">GRID 34.05 · 118.24</div>
+  <div class="hero-hud tr">STATUS · OPERATIONAL</div>
+  <div class="hero-hud bl">ALT 00850 / HDG 270</div>
+  <div class="hero-hud br">SAU-HB-v1.0</div>
+
+  <div class="hero-inner">
+    <div class="hero-seal" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12 L22 12"/>
+        <path d="M12 2 L12 22"/>
+        <circle cx="12" cy="12" r="3.5"/>
+        <path d="M5 5 L8 8"/>
+        <path d="M19 5 L16 8"/>
+        <path d="M5 19 L8 16"/>
+        <path d="M19 19 L16 16"/>
+      </svg>
+    </div>
+
+    <div class="hero-eyebrow">SALVATORES AVIATION UNIT · v1.0</div>
+
+    <h1>هندبوک رسمی واحد هوانوردی<br><span class="accent">سالواتورس</span></h1>
+    <div class="hero-divider" aria-hidden="true"></div>
+
+    <p class="tagline">سند داخلی واحد هوانوردی — نظم، هماهنگی و استاندارد واحد در تمامی عملیات‌های هوایی شهر</p>
+
+    <div class="hero-badges">
+      <div class="badge"><span class="badge-dot dot-green"></span>ایمنی</div>
+      <div class="badge"><span class="badge-dot dot-cyan"></span>انضباط</div>
+      <div class="badge"><span class="badge-dot dot-amber"></span>هماهنگی</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAIN ============ -->
 <main>
 
-  <section id="intro">
+  <!-- 01 · INTRO -->
+  <section id="intro" class="reveal">
     <div class="section-head">
       <span class="section-num">01</span>
       <h2>معرفی واحد هوانوردی</h2>
@@ -521,7 +1498,8 @@
     <div class="callout">هیچ مأموریتی مهم‌تر از جان افراد و قوانین شهر نیست.</div>
   </section>
 
-  <section id="rp">
+  <!-- 02 · RP -->
+  <section id="rp" class="reveal">
     <div class="section-head">
       <span class="section-num">02</span>
       <h2>قوانین عمومی RolePlay</h2>
@@ -570,7 +1548,8 @@
     </div>
   </section>
 
-  <section id="radio">
+  <!-- 03 · RADIO -->
+  <section id="radio" class="reveal">
     <div class="section-head">
       <span class="section-num">03</span>
       <h2>قوانین ارتباطات رادیویی</h2>
@@ -601,50 +1580,70 @@
     </div>
   </section>
 
-  <section id="codes">
+  <!-- 04 · CODES -->
+  <section id="codes" class="reveal">
     <div class="section-head">
       <span class="section-num">04</span>
       <h2>جدول کدهای رادیویی</h2>
     </div>
     <p class="lede">مرجع کامل کدهای عددی برای ارتباط سریع و استاندارد روی کانال.</p>
 
-    <table class="code-table">
-      <thead>
-        <tr><th style="width:110px">کد</th><th>مفهوم</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="code">10-1</td><td>اجماع تمام نیروها در محل مشخص</td></tr>
-        <tr><td class="code">10-2</td><td>سکوت اجباری در محل</td></tr>
-        <tr class="critical"><td class="code">10-3</td><td>سکوت کامل رادیویی</td></tr>
-        <tr class="positive"><td class="code">10-4</td><td>دریافت شد</td></tr>
-        <tr><td class="code">10-5</td><td>تکرار آخرین پیام</td></tr>
-        <tr><td class="code">10-6</td><td>نادیده بگیرید</td></tr>
-        <tr><td class="code">10-7</td><td>AFK</td></tr>
-        <tr class="positive"><td class="code">10-8</td><td>آماده انجام مأموریت</td></tr>
-        <tr><td class="code">10-9</td><td>مشغول هستم</td></tr>
-        <tr class="positive"><td class="code">10-10</td><td>مأموریت با موفقیت پایان یافت</td></tr>
-        <tr><td class="code">10-11</td><td>مأموریت ناموفق بود</td></tr>
-        <tr><td class="code">10-12</td><td>درخواست Pickup</td></tr>
-        <tr><td class="code">10-19</td><td>بازگشت به استیشن</td></tr>
-        <tr><td class="code">10-20</td><td>اعلام موقعیت دقیق</td></tr>
-        <tr><td class="code">10-21</td><td>اعلام وضعیت</td></tr>
-        <tr><td class="code">10-37</td><td>معرفی Call Sign</td></tr>
-        <tr><td class="code">10-42</td><td>درخواست Off Duty</td></tr>
-        <tr><td class="code">10-45</td><td>درخواست تغییر فرکانس</td></tr>
-        <tr class="critical"><td class="code">10-60</td><td>فرود اضطراری</td></tr>
-        <tr><td class="code">10-61</td><td>بررسی منطقه با X-Ray</td></tr>
-        <tr><td class="code">10-63</td><td>اجازه پرواز</td></tr>
-        <tr><td class="code">10-64</td><td>اجازه فرود</td></tr>
-        <tr class="critical"><td class="code">10-70</td><td>درخواست نیروی پشتیبانی</td></tr>
-        <tr><td class="code">10-97</td><td>در حال اعزام</td></tr>
-        <tr class="positive"><td class="code">10-99</td><td>مأموریت پایان یافت</td></tr>
-        <tr class="positive"><td class="code">Code-1</td><td>New Player</td></tr>
-        <tr class="critical"><td class="code">Code 0</td><td>خروج از بازی / قطع اینترنت</td></tr>
-      </tbody>
-    </table>
+    <div class="table-toolbar">
+      <div class="table-search">
+        <input type="text" id="codeSearch" placeholder="جستجوی کد یا مفهوم..." aria-label="جستجوی کد رادیویی" autocomplete="off">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+        </svg>
+      </div>
+      <div class="filter-chips" role="group" aria-label="فیلتر کدها">
+        <button type="button" class="filter-chip active" data-filter="all">همه</button>
+        <button type="button" class="filter-chip" data-filter="critical">Critical</button>
+        <button type="button" class="filter-chip" data-filter="positive">Positive</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="code-table">
+        <thead>
+          <tr><th style="width:110px">کد</th><th>مفهوم</th></tr>
+        </thead>
+        <tbody id="codeTableBody">
+          <tr><td class="code">10-1</td><td>اجماع تمام نیروها در محل مشخص</td></tr>
+          <tr><td class="code">10-2</td><td>سکوت اجباری در محل</td></tr>
+          <tr class="critical"><td class="code">10-3</td><td>سکوت کامل رادیویی</td></tr>
+          <tr class="positive"><td class="code">10-4</td><td>دریافت شد</td></tr>
+          <tr><td class="code">10-5</td><td>تکرار آخرین پیام</td></tr>
+          <tr><td class="code">10-6</td><td>نادیده بگیرید</td></tr>
+          <tr><td class="code">10-7</td><td>AFK</td></tr>
+          <tr class="positive"><td class="code">10-8</td><td>آماده انجام مأموریت</td></tr>
+          <tr><td class="code">10-9</td><td>مشغول هستم</td></tr>
+          <tr class="positive"><td class="code">10-10</td><td>مأموریت با موفقیت پایان یافت</td></tr>
+          <tr><td class="code">10-11</td><td>مأموریت ناموفق بود</td></tr>
+          <tr><td class="code">10-12</td><td>درخواست Pickup</td></tr>
+          <tr><td class="code">10-19</td><td>بازگشت به استیشن</td></tr>
+          <tr><td class="code">10-20</td><td>اعلام موقعیت دقیق</td></tr>
+          <tr><td class="code">10-21</td><td>اعلام وضعیت</td></tr>
+          <tr><td class="code">10-37</td><td>معرفی Call Sign</td></tr>
+          <tr><td class="code">10-42</td><td>درخواست Off Duty</td></tr>
+          <tr><td class="code">10-45</td><td>درخواست تغییر فرکانس</td></tr>
+          <tr class="critical"><td class="code">10-60</td><td>فرود اضطراری</td></tr>
+          <tr><td class="code">10-61</td><td>بررسی منطقه با X-Ray</td></tr>
+          <tr><td class="code">10-63</td><td>اجازه پرواز</td></tr>
+          <tr><td class="code">10-64</td><td>اجازه فرود</td></tr>
+          <tr class="critical"><td class="code">10-70</td><td>درخواست نیروی پشتیبانی</td></tr>
+          <tr><td class="code">10-97</td><td>در حال اعزام</td></tr>
+          <tr class="positive"><td class="code">10-99</td><td>مأموریت پایان یافت</td></tr>
+          <tr class="positive"><td class="code">Code-1</td><td>New Player</td></tr>
+          <tr class="critical"><td class="code">Code 0</td><td>خروج از بازی / قطع اینترنت</td></tr>
+        </tbody>
+      </table>
+      <div class="empty-msg" id="emptyMsg">هیچ کدی با جستجوی شما یافت نشد.</div>
+    </div>
   </section>
 
-  <section id="callsign">
+  <!-- 05 · CALLSIGN -->
+  <section id="callsign" class="reveal">
     <div class="section-head">
       <span class="section-num">05</span>
       <h2>Call Sign و پروتکل ارتباطی</h2>
@@ -653,33 +1652,49 @@
 
     <h3 class="sub">معرفی Call Sign — 10-37</h3>
     <div class="transcript">
-      <div class="line">Dispatch, 10-37.</div>
-      <div class="line">Eagle-01.</div>
+      <div class="transcript-head">RADIO CHANNEL 1</div>
+      <div class="transcript-body">
+        <div class="line">Dispatch, 10-37.</div>
+        <div class="line">Eagle-01.</div>
+      </div>
     </div>
 
     <h3 class="sub">اعلام موقعیت — 10-20</h3>
     <div class="transcript">
-      <div class="line">Eagle-01, 10-20.</div>
-      <div class="line">Downtown Los Santos, over.</div>
+      <div class="transcript-head">RADIO CHANNEL 1</div>
+      <div class="transcript-body">
+        <div class="line">Eagle-01, 10-20.</div>
+        <div class="line">Downtown Los Santos, over.</div>
+      </div>
     </div>
 
     <h3 class="sub">اعلام وضعیت — 10-21</h3>
     <div class="transcript">
-      <div class="line">Eagle-01, 10-21, وضعیت عادی و در حال گشت هوایی.</div>
+      <div class="transcript-head">RADIO CHANNEL 1</div>
+      <div class="transcript-body">
+        <div class="line">Eagle-01, 10-21, وضعیت عادی و در حال گشت هوایی.</div>
+      </div>
     </div>
 
     <h3 class="sub">اعلام اعزام — 10-97</h3>
     <div class="transcript">
-      <div class="line">Eagle-01, 10-97, در حال اعزام به محل.</div>
+      <div class="transcript-head">RADIO CHANNEL 1</div>
+      <div class="transcript-body">
+        <div class="line">Eagle-01, 10-97, در حال اعزام به محل.</div>
+      </div>
     </div>
 
     <h3 class="sub">پایان موفق مأموریت — 10-10</h3>
     <div class="transcript">
-      <div class="line">Eagle-01, 10-10, مأموریت با موفقیت پایان یافت.</div>
+      <div class="transcript-head">RADIO CHANNEL 1</div>
+      <div class="transcript-body">
+        <div class="line">Eagle-01, 10-10, مأموریت با موفقیت پایان یافت.</div>
+      </div>
     </div>
   </section>
 
-  <section id="preflight">
+  <!-- 06 · PREFLIGHT -->
+  <section id="preflight" class="reveal">
     <div class="section-head">
       <span class="section-num">06</span>
       <h2>چک‌لیست قبل از پرواز</h2>
@@ -688,7 +1703,13 @@
 
     <div class="grid2">
       <div class="panel ok">
-        <h4>AIRCRAFT CHECK</h4>
+        <h4>
+          <span>AIRCRAFT CHECK</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3 8-8"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </h4>
         <ul>
           <li>سلامت ظاهری</li>
           <li>وضعیت موتور</li>
@@ -698,7 +1719,13 @@
         </ul>
       </div>
       <div class="panel ok">
-        <h4>ENVIRONMENT CHECK</h4>
+        <h4>
+          <span>ENVIRONMENT CHECK</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/>
+          </svg>
+        </h4>
         <ul>
           <li>افراد اطراف</li>
           <li>ساختمان‌ها و موانع</li>
@@ -723,7 +1750,8 @@
     <div class="callout info">اجازه پرواز — 10-63: در شرایطی که مرکز کنترل فعال است، خلبان باید پیش از پرواز هماهنگی لازم را انجام دهد.</div>
   </section>
 
-  <section id="inflight">
+  <!-- 07 · INFLIGHT -->
+  <section id="inflight" class="reveal">
     <div class="section-head">
       <span class="section-num">07</span>
       <h2>قوانین حین پرواز</h2>
@@ -732,7 +1760,14 @@
 
     <div class="grid2">
       <div class="panel no">
-        <h4>PROHIBITED</h4>
+        <h4>
+          <span>PROHIBITED</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+          </svg>
+        </h4>
         <ul>
           <li>مانورهای نمایشی بی‌دلیل</li>
           <li>پرواز خطرناک در مناطق شهری</li>
@@ -743,7 +1778,12 @@
         </ul>
       </div>
       <div class="panel ok">
-        <h4>REQUIRED</h4>
+        <h4>
+          <span>REQUIRED</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </h4>
         <ul>
           <li>ارتفاع متناسب با محیط شهری</li>
           <li>در نظر گرفتن جمعیت و ساختمان‌ها</li>
@@ -758,7 +1798,8 @@
     <div class="callout">اطلاعات را گزارش کنید؛ در تصمیم‌گیری نیروهای زمینی دخالت غیرضروری نکنید.</div>
   </section>
 
-  <section id="pickup">
+  <!-- 08 · PICKUP -->
+  <section id="pickup" class="reveal">
     <div class="section-head">
       <span class="section-num">08</span>
       <h2>Pickup و پشتیبانی عملیاتی</h2>
@@ -791,7 +1832,8 @@
     <div class="callout danger">درخواست پشتیبانی — 10-70: در شرایطی که خلبان یا تیم هوایی نیاز به کمک دارد، موقعیت و وضعیت باید به‌صورت واضح اعلام شود.</div>
   </section>
 
-  <section id="emergency">
+  <!-- 09 · EMERGENCY -->
+  <section id="emergency" class="reveal">
     <div class="section-head">
       <span class="section-num">09</span>
       <h2>شرایط اضطراری</h2>
@@ -810,10 +1852,10 @@
 
     <h3 class="sub">اولویت‌های فرود اضطراری</h3>
     <div class="priority">
-      <div class="priority-row"><span class="priority-rank">۱</span><span>حفظ جان سرنشینان</span></div>
-      <div class="priority-row"><span class="priority-rank">۲</span><span>جلوگیری از آسیب به شهروندان</span></div>
-      <div class="priority-row"><span class="priority-rank">۳</span><span>کنترل هواگرد</span></div>
-      <div class="priority-row"><span class="priority-rank">۴</span><span>حفظ تجهیزات سازمانی</span></div>
+      <div class="priority-row"><span class="priority-rank">1</span><span>حفظ جان سرنشینان</span></div>
+      <div class="priority-row"><span class="priority-rank">2</span><span>جلوگیری از آسیب به شهروندان</span></div>
+      <div class="priority-row"><span class="priority-rank">3</span><span>کنترل هواگرد</span></div>
+      <div class="priority-row"><span class="priority-rank">4</span><span>حفظ تجهیزات سازمانی</span></div>
     </div>
 
     <h3 class="sub">Code 0 — خروج از بازی / قطع اینترنت</h3>
@@ -821,12 +1863,16 @@
 
     <h3 class="sub">10-7 — AFK</h3>
     <div class="transcript">
-      <div class="line">Eagle-01, 10-7.</div>
-      <div class="line" style="color:var(--green)">Eagle-01, 10-8.</div>
+      <div class="transcript-head">RADIO CHANNEL 1</div>
+      <div class="transcript-body">
+        <div class="line">Eagle-01, 10-7.</div>
+        <div class="line">Eagle-01, 10-8.</div>
+      </div>
     </div>
   </section>
 
-  <section id="discipline">
+  <!-- 10 · DISCIPLINE -->
+  <section id="discipline" class="reveal">
     <div class="section-head">
       <span class="section-num">10</span>
       <h2>انضباط و قوانین نهایی</h2>
@@ -835,11 +1881,31 @@
 
     <h3 class="sub">سطوح تخلف انضباطی</h3>
     <div class="severity">
-      <div class="severity-row"><span class="severity-bar" style="background:#c9a24a"></span>تذکر شفاهی</div>
-      <div class="severity-row"><span class="severity-bar" style="background:#d98c3d"></span>اخطار رسمی</div>
-      <div class="severity-row"><span class="severity-bar" style="background:var(--red)"></span>تعلیق موقت</div>
-      <div class="severity-row"><span class="severity-bar" style="background:#c94f4f"></span>تنزل رتبه</div>
-      <div class="severity-row"><span class="severity-bar" style="background:#8c2f2f"></span>اخراج از واحد</div>
+      <div class="severity-row">
+        <span class="severity-bar" style="background:#c9a24a; color:#c9a24a;"></span>
+        <span>تذکر شفاهی</span>
+        <span class="level">LEVEL 01</span>
+      </div>
+      <div class="severity-row">
+        <span class="severity-bar" style="background:#d98c3d; color:#d98c3d;"></span>
+        <span>اخطار رسمی</span>
+        <span class="level">LEVEL 02</span>
+      </div>
+      <div class="severity-row">
+        <span class="severity-bar" style="background:#e35d5d; color:#e35d5d;"></span>
+        <span>تعلیق موقت</span>
+        <span class="level">LEVEL 03</span>
+      </div>
+      <div class="severity-row">
+        <span class="severity-bar" style="background:#c94f4f; color:#c94f4f;"></span>
+        <span>تنزل رتبه</span>
+        <span class="level">LEVEL 04</span>
+      </div>
+      <div class="severity-row">
+        <span class="severity-bar" style="background:#8c2f2f; color:#8c2f2f;"></span>
+        <span>اخراج از واحد</span>
+        <span class="level">LEVEL 05</span>
+      </div>
     </div>
 
     <h3 class="sub">تخلفات مهم</h3>
@@ -860,8 +1926,16 @@
 
 </main>
 
+<!-- ============ CHARTER ============ -->
 <div class="charter">
-  <blockquote>ما پرواز نمی‌کنیم تا <span>دیده شویم</span>؛ پرواز می‌کنیم تا ببینیم، پشتیبانی کنیم و مأموریت را به پایان برسانیم.</blockquote>
+  <div class="charter-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2 L3 7 L12 12 L21 7 Z"/>
+      <path d="M3 7 V17 L12 22 V12"/>
+      <path d="M21 7 V17 L12 22"/>
+    </svg>
+  </div>
+  <blockquote>ما پرواز نمی‌کنیم تا <span class="accent">دیده شویم</span>؛ پرواز می‌کنیم تا ببینیم، پشتیبانی کنیم و مأموریت را به پایان برسانیم.</blockquote>
   <div class="charter-list">
     <div>منضبط باشد</div>
     <div>رادیو را کنترل کند</div>
@@ -872,24 +1946,194 @@
   </div>
 </div>
 
+<!-- ============ FOOTER ============ -->
 <footer>
-  Salvatores Aviation Unit — Official Internal Handbook
-  <span class="mono">DISCIPLINE · PRECISION · CONTROL — v1.0</span>
+  <div class="footer-brand">SALVATORES AVIATION UNIT</div>
+  <div class="footer-sub">OFFICIAL AVIATION HANDBOOK</div>
+  <div class="footer-divider" aria-hidden="true"></div>
+  <div class="footer-sub" style="letter-spacing:.28em;">DISCIPLINE · PRECISION · CONTROL</div>
+  <div class="footer-divider" aria-hidden="true"></div>
+  <div class="footer-credit">ساخته شده توسط <b>POURIA VINIC</b></div>
 </footer>
 
+<!-- ============ BACK TO TOP ============ -->
+<button class="back-top" id="backTop" aria-label="بازگشت به بالا">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="19" x2="12" y2="5"/>
+    <polyline points="5 12 12 5 19 12"/>
+  </svg>
+</button>
+
+<!-- ============ SCRIPTS ============ -->
 <script>
-  const links = document.querySelectorAll('.navbar-inner a');
+(function(){
+  'use strict';
+
+  /* ---------- Mobile drawer ---------- */
+  const menuToggle = document.getElementById('menuToggle');
+  const drawer = document.getElementById('drawer');
+  const drawerBackdrop = document.getElementById('drawerBackdrop');
+  const drawerClose = document.getElementById('drawerClose');
+  const drawerNav = document.getElementById('drawerNav');
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    drawerBackdrop.classList.add('open');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    drawerBackdrop.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  menuToggle.addEventListener('click', () => {
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+  drawerClose.addEventListener('click', closeDrawer);
+  drawerBackdrop.addEventListener('click', closeDrawer);
+  drawerNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+
+  /* ---------- Scroll progress + back to top ---------- */
+  const progressBar = document.getElementById('progressBar');
+  const backTop = document.getElementById('backTop');
+  let ticking = false;
+
+  function onScroll(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const total = h.scrollHeight - h.clientHeight;
+    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    progressBar.style.width = pct + '%';
+    backTop.classList.toggle('show', scrolled > 500);
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if(!ticking){
+      window.requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  backTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---------- Clock ---------- */
+  const clockText = document.getElementById('clockText');
+  function updateClock(){
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mm = String(d.getMinutes()).padStart(2,'0');
+    const ss = String(d.getSeconds()).padStart(2,'0');
+    clockText.textContent = hh + ':' + mm + ':' + ss + ' UTC';
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  /* ---------- Active nav highlight ---------- */
+  const desktopLinks = document.querySelectorAll('#navDesktop a');
+  const drawerLinks = document.querySelectorAll('#drawerNav a');
   const sections = document.querySelectorAll('main section');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const active = document.querySelector(`.navbar-inner a[href="#${entry.target.id}"]`);
-        if (active) active.classList.add('active');
+
+  function setActive(id){
+    desktopLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    drawerLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+  }
+
+  if('IntersectionObserver' in window){
+    const navObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => navObs.observe(s));
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  const reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const rObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if(entry.isIntersecting){
+          const delay = (i % 3) * 70;
+          setTimeout(() => entry.target.classList.add('visible'), delay);
+          rObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+    reveals.forEach(el => rObs.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('visible'));
+  }
+
+  /* ---------- Codes table search & filter ---------- */
+  const codeSearch = document.getElementById('codeSearch');
+  const tableBody = document.getElementById('codeTableBody');
+  const emptyMsg = document.getElementById('emptyMsg');
+  const filterChips = document.querySelectorAll('.filter-chip');
+  const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+  let currentFilter = 'all';
+
+  function applyFilters(){
+    const query = (codeSearch.value || '').trim().toLowerCase();
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const isCritical = row.classList.contains('critical');
+      const isPositive = row.classList.contains('positive');
+
+      let matchesQuery = !query || text.indexOf(query) !== -1;
+      let matchesFilter =
+        currentFilter === 'all' ||
+        (currentFilter === 'critical' && isCritical) ||
+        (currentFilter === 'positive' && isPositive);
+
+      const visible = matchesQuery && matchesFilter;
+      row.classList.toggle('hide', !visible);
+      if(visible) visibleCount++;
+    });
+
+    emptyMsg.classList.toggle('show', visibleCount === 0);
+  }
+
+  if(codeSearch){
+    codeSearch.addEventListener('input', applyFilters);
+  }
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      filterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      currentFilter = chip.getAttribute('data-filter');
+      applyFilters();
+    });
+  });
+
+  /* ---------- Smooth scroll fallback ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if(id && id.length > 1){
+        const target = document.querySelector(id);
+        if(target){
+          e.preventDefault();
+          const offset = 80;
+          const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+          history.replaceState(null, '', id);
+        }
       }
     });
-  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-  sections.forEach(s => observer.observe(s));
+  });
+})();
 </script>
 
 </body>
